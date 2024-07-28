@@ -100,12 +100,12 @@ function populateFailedPieChart(classData) {
     (className) => classData[className].failedStudents || 0
   );
   const backgroundColors = [
-    "#FF6384",
-    "#36A2EB",
-    "#FFCE56",
-    "#8e5ea2",
-    "#3cba9f",
-    "#e8c3b9",
+    "#E57373", // Dark Red
+    "#64B5F6", // Dark Blue
+    "#81C784", // Dark Green
+    "#FFD54F", // Dark Yellow
+    "#F06292", // Dark Pink
+    "#B0BEC5", // Dark Grayish Blue
   ];
 
   new Chart(document.getElementById("pieFailedChart"), {

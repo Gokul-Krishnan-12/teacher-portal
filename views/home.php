@@ -195,15 +195,15 @@
             <h2>Dashboard</h2>
             <div class="dashboard-stats">
                 <div class="stat-card">
-                    <p id="total-students" class="stat-number">25</p>
+                    <p id="total-students" class="stat-number">0</p>
                     <h4>Total Students</h4>
                 </div>
                 <div class="stat-card">
-                    <p id="failed-students" class="stat-number">2</p>
+                    <p id="failed-students" class="stat-number">0</p>
                     <h4>Failed Students</h4>
                 </div>
                 <div class="stat-card">
-                    <p id="total-teachers" class="stat-number">5</p>
+                    <p id="total-teachers" class="stat-number">0</p>
                     <h4>Teachers</h4>
                 </div>
             </div>

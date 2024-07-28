@@ -67,14 +67,30 @@ $routes = [
         'POST' => function () use ($studentController) {
             // API endpoint for adding a student
             $data = json_decode(file_get_contents('php://input'), true);
-            $result = $studentController->addStudent($data['name'], $data['subject'], $data['marks'], $data['class'], $data['division']);
-            echo json_encode(['success' => $result]);
+
+            // Validate input
+            if (isset($data['name']) && isset($data['subject']) && isset($data['marks']) && isset($data['class']) && isset($data['division'])) {
+                // Further validation can be done here (e.g., ensuring marks is a number)
+                $result = $studentController->addStudent($data['name'], $data['subject'], $data['marks'], $data['class'], $data['division']);
+                echo json_encode(['success' => $result]);
+            } else {
+                http_response_code(400); // Bad Request
+                echo json_encode(['error' => 'All fields are required']);
+            }
         },
         'PUT' => function () use ($studentController) {
             // API endpoint for updating a student
             $data = json_decode(file_get_contents('php://input'), true);
-            $result = $studentController->updateStudent($data['id'], $data['name'], $data['subject'], $data['marks'], $data['class'], $data['division']);
-            echo json_encode(['success' => $result]);
+
+            // Validate input
+            if (isset($data['id']) && isset($data['name']) && isset($data['subject']) && isset($data['marks']) && isset($data['class']) && isset($data['division'])) {
+                // Further validation can be done here
+                $result = $studentController->updateStudent($data['id'], $data['name'], $data['subject'], $data['marks'], $data['class'], $data['division']);
+                echo json_encode(['success' => $result]);
+            } else {
+                http_response_code(400); // Bad Request
+                echo json_encode(['error' => 'All fields are required']);
+            }
         }
     ],
     '/api/marks' => [
@@ -86,70 +102,58 @@ $routes = [
     '/api/fetchStudents' => [
         'POST' => function () use ($studentController) {
             // API endpoint for fetching students by class and division
-            $json_data = file_get_contents('php://input');
-            $data = json_decode($json_data, true);
+            $data = json_decode(file_get_contents('php://input'), true);
 
-            // Retrieve class and division from payload
+            // Validate input
             $class = isset($data['class']) ? $data['class'] : null;
             $division = isset($data['division']) ? $data['division'] : 'A';
 
-            // Example validation for class (assuming it should be a numeric value)
             if ($class !== null && !is_numeric($class)) {
                 http_response_code(400); // Bad Request
                 echo json_encode(['error' => 'Class should be a numeric value.']);
                 exit;
             }
 
-            // Fetch students from controller based on class and division
             $students = $studentController->getStudentsByClassAndDivision($class, $division);
 
-            // Check if students are retrieved successfully
             if ($students === null) {
                 http_response_code(404); // Not Found
                 echo json_encode(['error' => 'No students found for the given parameters.']);
                 exit;
             }
 
-            // Respond with JSON data
             echo json_encode($students);
         },
     ],
-    
     '/api/addMarks' => [
         'POST' => function () use ($markController) {
-            // API endpoint for fetching students by class and division
-            $json_data = file_get_contents('php://input');
-            $data = json_decode($json_data, true);
+            // API endpoint for adding marks
+            $data = json_decode(file_get_contents('php://input'), true);
 
-            // Retrieve class and division from payload
-            $name = isset($data['name']) ? $data['name'] : null;
-            $subject = isset($data['subject']) ? $data['subject'] : null;
-            $marks = isset($data['marks']) ? $data['marks'] : null;
-            $class = isset($data['class']) ? $data['class'] : null;
-            $division = isset($data['division']) ? $data['division'] : 'A';
-
-
-            // Fetch students from controller based on class and division
-            $marks = $markController->addMark($name, $subject, $marks, $class, $division);
-
-            // Check if students are retrieved successfully
-            if ($marks === null) {
-                http_response_code(404); // Not Found
-                echo json_encode(['error' => 'Data not found.']);
-                exit;
+            // Validate input
+            if (isset($data['name']) && isset($data['subject']) && isset($data['marks']) && isset($data['class']) && isset($data['division'])) {
+                // Further validation can be done here
+                $result = $markController->addMark($data['name'], $data['subject'], $data['marks'], $data['class'], $data['division']);
+                echo json_encode(['success' => $result]);
+            } else {
+                http_response_code(400); // Bad Request
+                echo json_encode(['error' => 'All fields are required']);
             }
-
-            // Respond with JSON data
-            echo json_encode($marks);
         },
     ],
     '/api/marks/{id}' => [
         'DELETE' => function ($params) use ($markController) {
             // API endpoint for deleting a mark by ID
             $id = $params['id'];
+
+            if (!is_numeric($id)) {
+                http_response_code(400); // Bad Request
+                echo json_encode(['error' => 'Invalid ID']);
+                exit;
+            }
+
             $result = $markController->deleteMark($id);
 
-            // Check result and respond accordingly
             if ($result === true) {
                 echo json_encode(['success' => true]);
             } elseif ($result === false) {
@@ -163,41 +167,40 @@ $routes = [
     ],
     '/api/mark/{id}' => [
         'GET' => function ($params) use ($markController) {
-            // API endpoint for deleting a mark by ID
+            // API endpoint for getting a mark by ID
             $id = $params['id'];
-            $result = $markController->getMarkById($id);
 
-            echo  json_encode($result);
+            if (!is_numeric($id)) {
+                http_response_code(400); // Bad Request
+                echo json_encode(['error' => 'Invalid ID']);
+                exit;
+            }
+
+            $result = $markController->getMarkById($id);
+            echo json_encode($result);
         },
     ],
     '/api/updateMarks' => [
-        'POST' => function ($params) use ($markController) {
-            // API endpoint for fetching students by class and division
-            $json_data = file_get_contents('php://input');
-            $data = json_decode($json_data, true);
+        'POST' => function () use ($markController) {
+            // API endpoint for updating a mark
+            $data = json_decode(file_get_contents('php://input'), true);
 
-            // Retrieve class and division from payload
-            $id = isset($data['mark_id']) ? $data['mark_id'] : null;
-            $name = isset($data['name']) ? $data['name'] : null;
-            $subject = isset($data['subject']) ? $data['subject'] : null;
-            $marks = isset($data['marks']) ? $data['marks'] : null;
-            $class = isset($data['class']) ? $data['class'] : null;
-            $division = isset($data['division']) ? $data['division'] : 'A';
-            
-
-             // Fetch students from controller based on class and division
-             $marks = $markController->updateMark($id, $name, $subject, $marks, $class, $division);
-
-            echo  json_encode($marks);
+            // Validate input
+            if (isset($data['mark_id']) && isset($data['name']) && isset($data['subject']) && isset($data['marks']) && isset($data['class']) && isset($data['division'])) {
+                // Further validation can be done here
+                $result = $markController->updateMark($data['mark_id'], $data['name'], $data['subject'], $data['marks'], $data['class'], $data['division']);
+                echo json_encode(['success' => $result]);
+            } else {
+                http_response_code(400); // Bad Request
+                echo json_encode(['error' => 'All fields are required']);
+            }
         },
     ],
     '/api/studentsCount' => [
-        'GET' => function ($params) use ($studentController) {
-
-             // Fetch students from controller based on class and division
-             $studentsCount = $studentController->getStudentsCount();
-
-            echo  json_encode($studentsCount);
+        'GET' => function () use ($studentController) {
+            // API endpoint for getting student count
+            $studentsCount = $studentController->getStudentsCount();
+            echo json_encode($studentsCount);
         },
     ],
 ];
@@ -222,9 +225,9 @@ foreach ($routes as $route => $handler) {
 
     if (preg_match($pattern, $request_uri, $matches)) {
         $routeMatched = true;
-        
+
         // Remove numeric keys from matches
-        $params = array_filter($matches, function($key) {
+        $params = array_filter($matches, function ($key) {
             return !is_numeric($key);
         }, ARRAY_FILTER_USE_KEY);
 
@@ -246,5 +249,3 @@ if (!$routeMatched) {
     http_response_code(404);
     echo json_encode(['error' => 'Not Found']);
 }
-
-?>

@@ -44,14 +44,12 @@
             background-color: white;
             transition: border-color 0.3s ease-in-out;
             box-sizing: border-box;
-            /* Ensures padding doesn't increase width */
         }
 
         select#division:hover,
         select#division:focus {
             outline: none;
             border-color: #4CAF50;
-            /* Example of highlighting when hovered or focused */
         }
 
         table {
@@ -140,10 +138,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            display: inline-block;
-            margin-bottom: 10px;
         }
-
 
         .form-group.inline {
             display: flex;
@@ -163,14 +158,11 @@
         th {
             background-color: #c7b7b7;
             font-weight: bold;
-            text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
         }
 
         /* Styling for first letter in circle */
         td:first-child::before {
-            content: "A";
+            content: attr(data-initial);
             display: inline-block;
             width: 1.5em;
             height: 1.5em;
@@ -192,31 +184,10 @@
             border-radius: 4px;
             cursor: pointer;
             margin-top: 10px;
-            /* Added margin-top for spacing */
         }
 
         /* Styling for dropdowns */
         .select-style select {
-            width: 100%;
-            padding: 8px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        /* Styling for popup form */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .form-group input[type="text"],
-        .form-group select {
             width: 100%;
             padding: 8px;
             font-size: 1rem;
@@ -245,6 +216,7 @@
                     <div id="division-select">
                         <label for="division">Select Division:</label>
                         <select id="division" onchange="showStudentsByDivision(this.value)">
+                            <!-- Options will be dynamically populated -->
                         </select>
                     </div>
                     <button onclick="openAddStudentPopup()">Add New Mark</button>
@@ -260,9 +232,10 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="student-table-body"></tbody>
+                    <tbody id="student-table-body">
+                        <!-- Data will be dynamically populated -->
+                    </tbody>
                 </table>
-
             </div>
         </section>
     </main>
@@ -274,10 +247,10 @@
                 <h3>Add New Mark</h3>
                 <span class="close" onclick="closeAddStudentPopup()">&times;</span>
             </div>
-            <form id="add-student-form">
+            <form id="add-student-form" onsubmit="addStudent(event)">
                 <div class="form-group">
                     <label for="student-name">Name:</label>
-                    <input type="text" id="student-name" name="student-name">
+                    <input type="text" id="student-name" name="student-name" required>
                 </div>
                 <div class="form-group inline">
                     <div>
@@ -286,7 +259,7 @@
                     </div>
                     <div>
                         <label for="student-division">Division:</label>
-                        <input type="text" id="student-division" name="student-division">
+                        <input type="text" id="student-division" name="student-division" required>
                     </div>
                 </div>
                 <div class="form-group inline">
@@ -296,11 +269,11 @@
                     </div>
                     <div>
                         <label for="student-marks">Marks:</label>
-                        <input type="number" id="student-marks" name="student-marks" required>
+                        <input type="number" id="student-marks" name="student-marks" required min="0">
                     </div>
                 </div>
                 <div class="form-group">
-                    <button id="add-mark-btn">Add</button>
+                    <button type="submit" id="add-mark-btn">Add</button>
                 </div>
             </form>
         </div>
