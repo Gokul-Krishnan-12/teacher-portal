@@ -1,0 +1,64 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+h1, h2, h3 {
+    margin-bottom: 1rem;
+}
+
+/* Base button styles */
+button {
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border: 2px solid transparent; /* Added border for better contrast */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Smooth transition */
+    font-size: 16px; /* Adjust font size for readability */
+    font-weight: bold; /* Bold font for emphasis */
+}
+
+/* Hover state */
+button:hover {
+    background-color: #555; /* Darken background on hover */
+    color: white; /* Maintain white text on hover */
+    border-color: #555; /* Highlight border on hover */
+}
+
+/* Focus state for accessibility */
+button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2); /* Add custom focus style */
+}
+
+
