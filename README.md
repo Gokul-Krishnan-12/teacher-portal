@@ -16,7 +16,7 @@ This project is a Teacher Portal application that manages student marks and prov
 1. **Clone the Repository**
 
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/Gokul-Krishnan-12/teacher-portal.git
     cd teacher-portal
     ```
 
