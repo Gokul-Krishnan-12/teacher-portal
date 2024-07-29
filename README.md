@@ -54,6 +54,13 @@ This project is a Teacher Portal application that manages student marks and prov
     ```
 
     Replace `<username>` and `<password>` with desired admin credentials.
+7. **Run the program**
+
+   ```bash
+   php -S localhost:8000 -t public
+   ```
+8. Go to the homepage url of localhost:8000 
+
 
 ## Features
 
